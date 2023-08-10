@@ -13,8 +13,21 @@ export default function App(props) {
   const[tasks,setTasks] = useState(props.tasks);
   const tasksNoun = tasks.length !== 1 ? "tasks" : "task";
   const headingText = `${tasks.length} tasks remaining`;
-
-
+  const [filter,setFilter]=useState("All");
+  const FILTER_MAP = {
+    All : () => true,
+    Active : (task) => !task.completed,
+    Completed: (task) => task.completed,
+  }
+  const FILTER_NAMES = Object.keys(FILTER_MAP);
+  const filterList = FILTER_NAMES.map((name)=>(
+    <FilterButton 
+    key={name} 
+    name={name}
+    isPressed={name===filter}
+    setFilter={setFilter}
+    />
+  ))
 
   function addTask(name) {
     const newTask = {id:`todo-${nanoid()}`,name,completed:false};
@@ -67,7 +80,7 @@ export default function App(props) {
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
       <Form addTask={addTask} />
-      <FilterButton />
+      {filterList}
       <h2 id="list-heading">{headingText}</h2>
       <ul
         role="list"
