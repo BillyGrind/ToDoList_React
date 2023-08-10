@@ -4,6 +4,10 @@ import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 
+// Ex source
+//https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_interactivity_filtering_conditional_rendering
+
+
 export default function App(props) {
 
   const[tasks,setTasks] = useState(props.tasks);
@@ -36,6 +40,17 @@ export default function App(props) {
     console.log(id);
   }
 
+  function editTask(id, newName){
+    const editedTaskList = tasks.map((task)=>{
+      if(id===task.id){
+        console.log(task.id);
+        return { ...task, name: newName };
+      }
+      return task;
+    })
+    setTasks(editedTaskList);
+  }
+
   const taskList = tasks.map((task) => (
     <Todo
       id={task.id}
@@ -44,6 +59,7 @@ export default function App(props) {
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
       deletedTask={deletedTask}
+      editTask={editTask}
     />
   ));
 
