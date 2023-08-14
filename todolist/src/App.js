@@ -15,10 +15,11 @@ export default function App(props) {
   const headingText = `${tasks.length} tasks remaining`;
   const [filter,setFilter]=useState("All");
   const FILTER_MAP = {
-    All : () => true,
-    Active : (task) => !task.completed,
+    All: () => true,
+    Active: (task) => !task.completed,
     Completed: (task) => task.completed,
-  }
+  };
+  
   const FILTER_NAMES = Object.keys(FILTER_MAP);
   const filterList = FILTER_NAMES.map((name)=>(
     <FilterButton 
@@ -64,7 +65,9 @@ export default function App(props) {
     setTasks(editedTaskList);
   }
 
-  const taskList = tasks.map((task) => (
+  const taskList = tasks
+  .filter(FILTER_MAP[filter])
+  .map((task) => (
     <Todo
       id={task.id}
       name={task.name}
